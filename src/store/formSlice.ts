@@ -1,32 +1,63 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface FormData {
-  step1: { name: string; email: string };
-  step2: { age: number; gender: string };
-  step3: { termsAccepted: boolean };
+export interface FormState {
+  step1: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  step2: {
+    address: string;
+    city: string;
+    country: string;
+  };
+  step3: {
+    occupation: string;
+    education: string;
+    skills: string[];
+  };
+  currentStep: number;
 }
 
-const initialState: FormData = {
-  step1: { name: '', email: '' },
-  step2: { age: 0, gender: '' },
-  step3: { termsAccepted: false },
+const initialState: FormState = {
+  step1: {
+    firstName: '',
+    lastName: '',
+    email: '',
+  },
+  step2: {
+    address: '',
+    city: '',
+    country: '',
+  },
+  step3: {
+    occupation: '',
+    education: '',
+    skills: [],
+  },
+  currentStep: 1,
 };
 
-const formSlice = createSlice({
+export const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    setStep1: (state, action: PayloadAction<FormData['step1']>) => {
+    updateStep1: (state, action: PayloadAction<FormState['step1']>) => {
       state.step1 = action.payload;
     },
-    setStep2: (state, action: PayloadAction<FormData['step2']>) => {
+    updateStep2: (state, action: PayloadAction<FormState['step2']>) => {
       state.step2 = action.payload;
     },
-    setStep3: (state, action: PayloadAction<FormData['step3']>) => {
+    updateStep3: (state, action: PayloadAction<FormState['step3']>) => {
       state.step3 = action.payload;
     },
+    setCurrentStep: (state, action: PayloadAction<number>) => {
+      state.currentStep = action.payload;
+    },
+    resetForm: () => initialState,
   },
 });
 
-export const { setStep1, setStep2, setStep3 } = formSlice.actions;
+export const { updateStep1, updateStep2, updateStep3, setCurrentStep, resetForm } = formSlice.actions;
+
 export default formSlice.reducer;
